@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+  server:
+    image: template/server
+    container_name: template-server
+    build:
+      context: ./services/server/setup
+      dockerfile: Dockerfile
+    env_file:
+      - services/config.env
+      - services/secrets.env
+    ports: # host:guest
+      - "8000:8000"
+    volumes:
+      - .:/app
+#    links:
+#      - db_postgres
+#    depends_on:
+#      - db_postgres
+
+#  pgweb:
+#    image: "sosedoff/pgweb"
+#    container_name: template-pgweb
+#    env_file:
+#      - services/secrets.env
+#    ports: # host:guest
+#      - "9011:8081"
+#    links:
+#      - db_postgres
+#    depends_on:
+#      - db_postgres
+
+#  db_postgres:
+#    image: "postgres:latest"
+#    container_name: template-db-postgres
+#    env_file:
+#      - services/config.env
+#      - services/secrets.env
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - db_postgres_data:/var/lib/postgresql/data
+
+#volumes:
+#  db_postgres_data: {}

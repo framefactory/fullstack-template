@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "sourceMap": true,
+    "target": "ES6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "react",
+
+    "outDir": "../../node_modules",
+    "baseUrl": ".",
+    "paths": {
+      "flow/*": [ "./flow/*" ],
+      "types/*": [ "./types/*" ]
+    }
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
