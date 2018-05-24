@@ -26,20 +26,18 @@ services:
     env_file:
       - services/config.env
       - services/secrets.env
-#    ports: # host:container
-#      - "27017:27017"
     volumes:
       - ./services/mongo/setup:/docker-entrypoint-initdb.d
       - mongo_data:/data/db
 
   mongo_express:
     image: mongo-express
-    container_name: montage-mongo-express
+    container_name: template-mongo-express
     env_file:
       - services/config.env
       - services/secrets.env
     ports: #host:container
-      - "8001:8001"
+      - "8001:8081"
     links:
       - mongo
     depends_on:
