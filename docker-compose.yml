@@ -1,5 +1,4 @@
-version: '2'
-
+version: '3'
 services:
   server:
     image: template/server
@@ -10,14 +9,42 @@ services:
     env_file:
       - services/config.env
       - services/secrets.env
-    ports: # host:guest
+    ports: # host:container
       - "8000:8000"
     volumes:
       - .:/app
-#    links:
+    links:
+      - mongo
 #      - db_postgres
-#    depends_on:
+    depends_on:
+      - mongo
 #      - db_postgres
+
+  mongo:
+    image: mongo
+    container_name: template-mongo
+    env_file:
+      - services/config.env
+      - services/secrets.env
+#    ports: # host:container
+#      - "27017:27017"
+    volumes:
+      - ./services/mongo/setup:/docker-entrypoint-initdb.d
+      - mongo_data:/data/db
+
+  mongo_express:
+    image: mongo-express
+    container_name: montage-mongo-express
+    env_file:
+      - services/config.env
+      - services/secrets.env
+    ports: #host:container
+      - "8001:8001"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    command: [ "sh", "-c", "sleep 5 && tini -s -- node app" ]
 
 #  pgweb:
 #    image: "sosedoff/pgweb"
@@ -40,7 +67,8 @@ services:
 #    ports:
 #      - "5432:5432"
 #    volumes:
-#      - db_postgres_data:/var/lib/postgresql/data
+#      - postgres_data:/var/lib/postgresql/data
 
-#volumes:
-#  db_postgres_data: {}
+volumes:
+  mongo_data: {}
+#  postgres_data: {}

@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "sourceMap": true,
+    "target": "ES6",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "jsx": "react",
+    "lib": [ "DOM", "DOM.Iterable", "ES6", "ScriptHost", "ES2017" ],
+
+    "outDir": "../../services/server/bin",
+
+    "baseUrl": ".",
+    "rootDir": "..",
+
+    "paths": {
+      "flow/*": [ "../shared/flow/*" ],
+      "project/*": [ "../shared/project/*" ]
+    }
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -21,9 +21,9 @@ export NVM_DIR="/root/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # install node.js
-nvm install 8.10.0
-nvm use 8.10.0
-nvm alias default 8.10.0
+nvm install 8.11.0
+nvm use 8.11.0
+nvm alias default 8.11.0
 
 # Check node versions
 node --version

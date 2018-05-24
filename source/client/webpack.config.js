@@ -1,12 +1,20 @@
 "use strict";
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
+
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
+    mode: "development",
+
+    // The entry point tells webpack where to start
+    // and follows the graph of dependencies to know what to bundle.
     entry: {
         "application": path.resolve(__dirname, "bundles/application.tsx")
     },
+
     output: {
         path: path.resolve(__dirname, "../../services/server/static/app"),
         filename: "[name].js"
@@ -24,6 +32,13 @@ module.exports = {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".json"]
     },
+
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            allChunks: true
+        })
+    ],
 
     module: {
         rules: [
@@ -44,22 +59,17 @@ module.exports = {
             //{ test: /\.scss$/, loaders: ['style', 'css', 'sass'] }
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('css-loader!sass-loader')
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "sass-loader"
+                ]
             }
         ]
     },
 
-    plugins: [
-        new ExtractTextPlugin({
-            filename: "[name].css",
-            allChunks: true
-        })
-    ],
-
     // When importing a module whose path matches one of the following, just
     // assume a corresponding global variable exists and use that instead.
-    // This is important because it allows us to avoid bundling all of our
-    // dependencies, which allows browsers to cache those libraries between builds.
     externals: {
         "react": "React",
         "react-dom": "ReactDOM",

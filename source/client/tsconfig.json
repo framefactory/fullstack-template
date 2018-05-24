@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "sourceMap": true,
+    "target": "ES5",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "lib": [ "DOM", "ES5", "ScriptHost", "ES2015" ],
+
+    "baseUrl": ".",
+    "paths": {
+      "flow/*": [ "../shared/flow/*" ],
+      "project/*": [ "../shared/project/*" ]
+    }
+  }
+}

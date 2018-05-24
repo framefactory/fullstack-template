@@ -5,7 +5,7 @@ FROM ubuntu:latest
 
 MAINTAINER "Ralph Wiedemeier" <ralph@framefactory.ch>
 LABEL description="node-server"
-LABEL version="0.2"
+LABEL version="0.5"
 
 # Install provisioning and startup scripts
 COPY *.sh /var/scripts/
