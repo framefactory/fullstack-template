@@ -23,14 +23,17 @@ import * as morgan from "morgan";
 
 let devMode: boolean = process.env.NODE_ENV !== "production";
 
-const templateDir = path.resolve(__dirname, "../views");
-let staticDir = path.resolve(__dirname, "../static");
+const port = parseInt(process.env.SERVER_PORT) || 8000;
+
+const rootDir = path.resolve(__dirname, process.env.SERVER_ROOT);
+const templateDir = path.resolve(rootDir, "views");
+let staticDir = path.resolve(rootDir, "static");
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXPRESS SERVER
 
 let app = express();
-app.set("port", process.env.NODE_PORT || 8000);
+app.set("port", port);
 
 let server = http.createServer(app);
 server.listen(app.get("port"), () => {
@@ -67,7 +70,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // index page
 app.get("/", (req: any, res) => {
-    res.render("pages/application");
+    res.render("pages/application", { layout: null });
 });
 
 // serve static files
