@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "target": "ES6",
+    "module": "commonjs",
     "sourceMap": true,
-    "target": "ES5",
-    "moduleResolution": "node",
     "jsx": "react",
-    "lib": [ "DOM", "ES5", "ScriptHost", "ES2015" ],
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "traceResolution": true,
 
     "baseUrl": ".",
     "paths": {
-      "flow/*": [ "../shared/flow/*" ],
-      "project/*": [ "../shared/project/*" ]
+      "common/*": [ "../common/*" ],
+      "@ff/core/*": [ "../../libs/ff-core/source/*" ],
+      "@ff/browser/*": [ "../../libs/ff-browser/source/*" ],
+      "@ff/ui/*": [ "../../libs/ff-ui/source/*" ]
     }
   }
 }

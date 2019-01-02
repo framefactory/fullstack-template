@@ -3,10 +3,15 @@
 .vscode/
 .cache/
 node_modules/
-/services/server/bin
-/services/server/static/app
+
+dist/
+test/
+doc/code
+services/server/bin
+services/server/static/app
+services/server/static/libs
 
 # FILES
 *.log
 .DS_Store
-services/secrets.env
+secrets.env
