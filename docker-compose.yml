@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   server:
     image: template/server
@@ -13,36 +14,36 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-    links:
-      - mongo
-#      - db_postgres
-    depends_on:
-      - mongo
-#      - db_postgres
+#    links:
+#      - mongo
+#      - postgres
+#    depends_on:
+#      - mongo
+#      - postgres
 
-  mongo:
-    image: mongo
-    container_name: template-mongo
-    env_file:
-      - services/config.env
-      - services/secrets.env
-    volumes:
-      - ./services/mongo/setup:/docker-entrypoint-initdb.d
-      - mongo_data:/data/db
-
-  mongo_express:
-    image: mongo-express
-    container_name: template-mongo-express
-    env_file:
-      - services/config.env
-      - services/secrets.env
-    ports: #host:container
-      - "8001:8081"
-    links:
-      - mongo
-    depends_on:
-      - mongo
-    command: [ "sh", "-c", "sleep 5 && tini -s -- node app" ]
+#  mongo:
+#    image: mongo
+#    container_name: template-mongo
+#    env_file:
+#      - services/config.env
+#      - services/secrets.env
+#    volumes:
+#      - ./services/mongo/setup:/docker-entrypoint-initdb.d
+#      - mongo_data:/data/db
+#
+#  mongo_express:
+#    image: mongo-express
+#    container_name: template-mongo-express
+#    env_file:
+#      - services/config.env
+#      - services/secrets.env
+#    ports: #host:container
+#      - "8001:8081"
+#    links:
+#      - mongo
+#    depends_on:
+#      - mongo
+#    command: [ "sh", "-c", "sleep 5 && tini -s -- node app" ]
 
 #  pgweb:
 #    image: "sosedoff/pgweb"
@@ -52,13 +53,13 @@ services:
 #    ports: # host:guest
 #      - "9011:8081"
 #    links:
-#      - db_postgres
+#      - postgres
 #    depends_on:
-#      - db_postgres
+#      - postgres
 
-#  db_postgres:
+#  postgres:
 #    image: "postgres:latest"
-#    container_name: template-db-postgres
+#    container_name: template-postgres
 #    env_file:
 #      - services/config.env
 #      - services/secrets.env
@@ -67,6 +68,6 @@ services:
 #    volumes:
 #      - postgres_data:/var/lib/postgresql/data
 
-volumes:
-  mongo_data: {}
+#volumes:
+#  mongo_data: {}
 #  postgres_data: {}
