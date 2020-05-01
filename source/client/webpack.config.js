@@ -26,7 +26,7 @@ const projectDir = path.resolve(__dirname, "../..");
 const dirs = {
     source: path.resolve(projectDir, "source"),
     assets: path.resolve(projectDir, "assets"),
-    output: path.resolve(projectDir, "services/api/public/built"),
+    output: path.resolve(projectDir, "services/api"),
     modules: path.resolve(projectDir, "node_modules"),
     libs: path.resolve(projectDir, "libs"),
 };

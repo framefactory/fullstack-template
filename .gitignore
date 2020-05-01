@@ -3,7 +3,6 @@
 .vscode/
 .cache/
 node_modules/
-bin/
 doc/
 
 services/api/bin/

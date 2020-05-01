@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "description": "Full-stack application template",
   "scripts": {
-    "start": "npm run dev",
+    "start": "npm run build:api && npm run dev",
     "dev": "concurrently \"cd source/client && webpack --mode=development --color --watch\" \"tsc -b source/api -w\" \"nodemon services/api/bin/index.js\"",
-
-    "build:client": "cd source/client && webpack --mode=development --color --watch",
+    "build": "concurrently \"npm run build:client\" \"npm run build:api\"",
+    "build:client": "cd source/client && webpack --mode=development --color",
     "build:api": "tsc -b source/api",
-
+    "clean": "rm -rf services/api/bin; rm -rf services/api/public/built",
     "up": "docker-compose up -d; docker-compose logs -f",
     "down": "docker-compose stop; docker-compose rm -f -v",
     "restart": "docker-compose stop; docker-compose rm -f -v; docker-compose up -d; docker-compose logs -f",
-    "bash": "docker-compose exec api bash",
+    "bash": "docker-compose exec api bash"
   },
   "nodemonConfig": {
     "delay": 500,
@@ -21,8 +21,7 @@
     ]
   },
   "_moduleAliases": {
-    "@ff/core": "libs/ff-core/exports",
-    "@ff/server": "libs/ff-server/exports"
+    "@ff/core": "libs/ff-core/exports"
   },
   "repository": {
     "type": "git",
