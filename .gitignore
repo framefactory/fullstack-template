@@ -3,11 +3,10 @@
 .vscode/
 .cache/
 node_modules/
-doc/
 
+doc/
+built/
 services/api/bin/
-services/api/public/built/
-services/api/private/built/
 services/db/data/
 
 # FILES

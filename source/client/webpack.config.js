@@ -42,6 +42,7 @@ const modules = [
 
 // import aliases
 const alias = {
+    "client": path.resolve(dirs.source, "client"),
     "@ff/browser": "ff-browser/source",
     "@ff/core": "ff-core/source",
     "@ff/ui": "ff-ui/source"
@@ -83,13 +84,13 @@ WEBPACK - PROJECT BUILD CONFIGURATION
 
     // copy assets
     assets.forEach(asset => {
-       fs.copySync(asset.source, asset.target, { overwrite: true });
+        fs.copySync(asset.source, asset.target, { overwrite: true });
     });
 
     const componentKey = argv.component !== undefined ? argv.component : "default";
 
     if (componentKey === "all") {
-        return Object.keys(components).map(key => createBuildConfiguration(components[key]));
+        return Object.keys(components).map(key => createBuildConfiguration(environment, dirs, components[key]));
     }
 
     return createBuildConfiguration(environment, dirs, components[componentKey]);
@@ -111,12 +112,18 @@ function createBuildConfiguration(environment, dirs, component)
     const jsOutputFileName = isDevMode ? "js/[name].dev.js" : "js/[name].min.js";
     const cssOutputFileName = isDevMode ? "css/[name].dev.css" : "css/[name].min.css";
     const htmlOutputFileName = isDevMode ? `${component.name}.dev.html` : `${component.name}.html`;
+    const htmlElement = component.element ? `<${component.element}></${component.element}>` : undefined;
 
     console.log(`
 WEBPACK - COMPONENT BUILD CONFIGURATION
-  component: ${component.name}
-    version: ${component.version}
-      title: ${displayTitle}`);
+     component: ${component.name}
+         title: ${displayTitle}
+       version: ${component.version}
+ output folder: ${outputDir}
+       js file: ${jsOutputFileName}
+      css file: ${cssOutputFileName}
+     html file: ${htmlOutputFileName}
+  html element: ${htmlElement}`);
 
     return {
         mode: buildMode,
@@ -166,7 +173,7 @@ WEBPACK - COMPONENT BUILD CONFIGURATION
                 title: displayTitle,
                 version: component.version,
                 isDevelopment: isDevMode,
-                element: component.element,
+                element: htmlElement,
                 chunks: [ component.name ],
             })
         ],
@@ -174,15 +181,23 @@ WEBPACK - COMPONENT BUILD CONFIGURATION
         module: {
             rules: [
                 {
-                    // Typescript
-                    test: /\.tsx?$/,
-                    loader: "ts-loader",
-                },
-                {
                     // Enforce source maps for all javascript files
                     enforce: "pre",
                     test: /\.js$/,
-                    loader: "source-map-loader"
+                    loader: "source-map-loader",
+                },
+                {
+                    // Typescript
+                    test: /\.tsx?$/,
+                    use: [{
+                        loader: "ts-loader",
+                        options: { compilerOptions: { noEmit: false } },
+                    }],
+                },
+                {
+                    // Raw text and shader files
+                    test: /\.(txt|glsl|hlsl|frag|vert|fs|vs)$/,
+                    loader: "raw-loader"
                 },
                 {
                     // SCSS
@@ -198,13 +213,13 @@ WEBPACK - COMPONENT BUILD CONFIGURATION
                     test: /\.css$/,
                     use: [
                         MiniCssExtractPlugin.loader,
-                        "css-loader"
+                        "css-loader",
                     ]
                 },
                 {
                     // Handlebars templates
                     test: /\.hbs$/,
-                    loader: "handlebars-loader"
+                    loader: "handlebars-loader",
                 },
             ],
         },

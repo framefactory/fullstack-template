@@ -40,7 +40,7 @@ class Application extends React.Component<IApplicationProps, IApplicationState>
     {
         return (
             <ThemeProvider theme={theme}>
-                <div>Hello, Otherworld.</div>
+                <div>Hello from the Application React component.</div>
             </ThemeProvider>
         );
     }
