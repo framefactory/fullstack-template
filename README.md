@@ -1,7 +1,13 @@
 #fullstack-template
-Template for fullstack development with Typescript, React, WebGL/Three.js.
+Template for a fullstack application.
+#### Server
+- Typescript
+- Node.js
+- Express
 
-## Initialize
-1. Install Docker on host machine
-2. Create docker images and start server: ```docker-compose up```
-3. Clone flow repo from github: ```cd /source/shared && git clone https://github.com/framelab/flow```
+#### Client
+- Typescript
+- Webpack
+- React or Web Components / Material UI
+
+## Getting Started

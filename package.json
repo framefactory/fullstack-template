@@ -1,33 +1,28 @@
 {
   "name": "fullstack-template",
   "version": "0.1.0",
-  "description": "Full stack development with Typescript, WebGL/Three.js, Webpack",
+  "description": "Full-stack application template",
   "scripts": {
-    "start": "npm run server",
-    "server": "nodemon services/server/bin/index.js",
-    "watch": "concurrently \"cd source/client; webpack --watch --app=template\" \"tsc -b libs -w\" \"tsc -b source/server -w\" \"nodemon services/server/bin/index.js\"",
-    "build": "concurrently \"npm run build-server\" \"npm run build-dev\"",
-    "build-dev": "cd source/client; webpack --mode=development --app=all; cd ../..",
-    "build-prod": "cd source/client; webpack --mode=production --app=all; cd ../..",
-    "build-server": "tsc -b source/server",
-    "build-libs": "tsc -b libs",
-    "build-core": "tsc -p libs/ff-core/tsconfig.module.json",
-    "build-browser": "tsc -p libs/ff-browser/tsconfig.module.json",
-    "build-ui": "tsc -p libs/ff-ui/tsconfig.module.json",
-    "doc": "typedoc --name \"Template\" --exclude \"**/node_modules/**\" --ignoreCompilerErrors --mode file --target ES6 --theme minimal --out doc/code/ source/",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run dev",
+    "dev": "concurrently \"cd source/client && webpack --mode=development --color --watch\" \"tsc -b source/api -w\" \"nodemon services/api/bin/index.js\"",
+
+    "build:client": "cd source/client && webpack --mode=development --color --watch",
+    "build:api": "tsc -b source/api",
+
     "up": "docker-compose up -d; docker-compose logs -f",
     "down": "docker-compose stop; docker-compose rm -f -v",
-    "bash": "docker-compose exec server bash",
-    "reset": "./scripts/reset.sh"
+    "restart": "docker-compose stop; docker-compose rm -f -v; docker-compose up -d; docker-compose logs -f",
+    "bash": "docker-compose exec api bash",
   },
   "nodemonConfig": {
-    "delay": "1000",
+    "delay": 500,
     "watch": [
-      "services/server/bin",
-      "node_modules/@ff/core",
-      "node_modules/@ff/server"
+      "services/api/bin/**/*"
     ]
+  },
+  "_moduleAliases": {
+    "@ff/core": "libs/ff-core/exports",
+    "@ff/server": "libs/ff-server/exports"
   },
   "repository": {
     "type": "git",
@@ -36,7 +31,7 @@
   "contributors": [
     {
       "name": "Ralph Wiedemeier",
-      "url": "https://github.com/framelab"
+      "url": "https://github.com/framefactory"
     }
   ],
   "license": "MIT",
@@ -46,57 +41,39 @@
   },
   "homepage": "https://github.com/framelab/fullstack-template#readme",
   "dependencies": {
-    "@polymer/lit-element": "^0.6.5",
-    "@webcomponents/webcomponentsjs": "^2.2.1",
-    "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.16.4",
-    "express-handlebars": "^3.0.0",
-    "express-session": "^1.15.6",
-    "flash": "^1.1.0",
-    "fs-extra": "^7.0.1",
-    "mongodb": "^3.1.10",
-    "morgan": "^1.9.1",
-    "nodemon": "^1.18.9",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "source-map-support": "^0.5.9",
-    "three": "^0.100.0",
-    "watch": "^1.0.2"
+    "@types/node": "^13.13.4",
+    "child_process": "^1.0.2",
+    "concurrently": "^5.2.0",
+    "css-loader": "^3.5.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.6",
+    "handlebars-loader": "^1.7.1",
+    "html-webpack-plugin": "^4.2.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "mkdirp": "^1.0.4",
+    "module-alias": "^2.2.2",
+    "morgan": "^1.10.0",
+    "node-sass": "^4.14.0",
+    "nodemon": "^2.0.3",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "sass-loader": "^8.0.2",
+    "source-map-loader": "^0.2.4",
+    "terser-webpack-plugin": "^2.3.6",
+    "ts-loader": "^7.0.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   },
   "devDependencies": {
-    "@types/body-parser": "^1.17.0",
-    "@types/chai": "^4.1.7",
-    "@types/cookie-parser": "^1.4.1",
-    "@types/express": "^4.16.0",
-    "@types/express-handlebars": "^0.0.30",
-    "@types/express-session": "^1.15.11",
-    "@types/mocha": "^5.2.5",
-    "@types/mongodb": "^3.1.18",
-    "@types/node": "^10.12.18",
-    "@types/react": "^16.7.18",
-    "@types/three": "^0.93.15",
-    "awesome-typescript-loader": "^5.2.1",
-    "chai": "^4.2.0",
-    "concurrently": "^4.1.0",
-    "css-loader": "^2.1.0",
-    "handlebars-loader": "^1.7.1",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.5.0",
-    "mocha": "^5.2.0",
-    "node-sass": "^4.11.0",
-    "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "raw-loader": "^0.5.1",
-    "sass-loader": "^7.1.0",
-    "source-map-loader": "^0.2.4",
-    "terser-webpack-plugin": "^1.1.0",
-    "typedoc": "^0.13.0",
-    "typescript": "^3.2.2",
-    "typescript-json-schema": "^0.33.0",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-middleware": "^3.4.0",
-    "webpack-log": "^2.0.0",
-    "webpack-merge": "^4.1.5"
+    "@material-ui/core": "^4.9.12",
+    "@material-ui/icons": "^4.9.1",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "arangojs": "^6.14.0",
+    "lit-element": "^2.3.1",
+    "lit-html": "^1.2.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }

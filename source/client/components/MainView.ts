@@ -1,17 +1,15 @@
 /**
- * FF Typescript Foundation Library
- * Copyright 2018 Ralph Wiedemeier, Frame Factory GmbH
+ * template
  *
- * License: MIT
+ * @author Ralph Wiedemeier <ralph@framefactory.ch>
+ * @copyright (c) 2020 Frame Factory GmbH
  */
 
 import CustomElement, { customElement } from "@ff/ui/CustomElement";
 
-import "./styles.scss";
-
 ////////////////////////////////////////////////////////////////////////////////
 
-@customElement("f-template-application")
+@customElement("ff-template")
 export default class MainView extends CustomElement
 {
     constructor()
