@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "description": "Full stack application template",
   "scripts": {
-    "start": "npm run watch",
+    "start": "npm run api",
     "api": "tsc -b source/api; nodemon services/api/bin/index.js",
     "watch": "tsc -b source/api; concurrently \"cd source/client && webpack --color -w --mode=development --component=all\" \"tsc -b -w source/api\" \"nodemon services/api/bin/index.js\"",
     "watch:api": "tsc -b source/api; concurrently \"tsc -b -w source/api\" \"nodemon services/api/bin/index.js\"",
     "watch:client": "cd source/client && webpack --color -w --mode=development --component=all",
+    "watch:component": "tsc -b source/api; concurrently \"cd source/client && webpack --color -w --mode=development --component=$WATCH_COMPONENT\" \"tsc -b -w source/api\" \"nodemon services/api/bin/index.js\"",
     "build": "concurrently \"npm run build:client\" \"npm run build:api\"",
     "build:api": "tsc -b source/api",
     "build:client": "cd source/client; webpack --color --component=all; cd ../..",

@@ -93,8 +93,12 @@ WEBPACK - PROJECT BUILD CONFIGURATION
         return Object.keys(components).map(key => createBuildConfiguration(environment, dirs, components[key]));
     }
 
-    return createBuildConfiguration(environment, dirs, components[componentKey]);
-}
+    const component = components[componentKey];
+    if (component === undefined) {
+        throw new Error(`[webpack.config.js] can't build, component not existing: '${componentKey}'`);
+    }
+
+    return createBuildConfiguration(environment, dirs, components[componentKey]);}
 
 ////////////////////////////////////////////////////////////////////////////////
 
