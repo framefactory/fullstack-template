@@ -1,29 +1,28 @@
 {
   "name": "fullstack-template",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Full stack application template",
   "scripts": {
-    "start": "npm run api",
-    "api": "tsc -b source/api; nodemon services/api/bin/index.js",
-    "watch": "tsc -b source/api; concurrently \"cd source/client && webpack --color -w --mode=development --component=all\" \"tsc -b -w source/api\" \"nodemon services/api/bin/index.js\"",
-    "watch:api": "tsc -b source/api; concurrently \"tsc -b -w source/api\" \"nodemon services/api/bin/index.js\"",
-    "watch:client": "cd source/client && webpack --color -w --mode=development --component=all",
-    "watch:component": "tsc -b source/api; concurrently \"cd source/client && webpack --color -w --mode=development --component=$WATCH_COMPONENT\" \"tsc -b -w source/api\" \"nodemon services/api/bin/index.js\"",
-    "build": "concurrently \"npm run build:client\" \"npm run build:api\"",
-    "build:api": "tsc -b source/api",
+    "start": "npm run server",
+    "server": "tsc -b source/server; nodemon services/server/bin/index.js",
+    "dev": "tsc -b source/server; concurrently \"cd source/client && webpack --color -w --mode=development --component=all\" \"tsc -b -w source/server\" \"nodemon services/server/bin/index.js\"",
+    "dev:component": "tsc -b source/server; concurrently \"cd source/client && webpack --color -w --mode=development --component=$WATCH_COMPONENT\" \"tsc -b -w source/server\" \"nodemon services/server/bin/index.js\"",
+    "build": "concurrently \"npm run build:client\" \"npm run build:server\"",
+    "build:server": "tsc -b source/server",
     "build:client": "cd source/client; webpack --color --component=all; cd ../..",
     "build:client:prod": "cd source/client; webpack --color --component=all --mode=production; cd ../..",
     "build:client:dev": "cd source/client; webpack --color --component=all --mode=development; cd ../..",
-    "clean": "rm -rf services/api/bin; rm -rf services/api/public/built",
-    "up": "docker-compose up -d; docker-compose logs -f",
+    "clean": "rm -rf services/server/bin; rm -rf services/server/public/built",
+    "up": "bash -c 'WATCH_COMPONENT=${0/#bash/default} NPM_SCRIPT=dev:component docker-compose up -d; docker-compose logs -f'",
     "down": "docker-compose stop; docker-compose rm -f -v",
-    "restart": "docker-compose stop; docker-compose rm -f -v; docker-compose up -d; docker-compose logs -f",
-    "bash": "docker-compose exec api bash"
+    "restart": "npm run down; npm run up",
+    "install": "docker-compose exec server npm install",
+    "bash": "docker-compose exec server bash"
   },
   "nodemonConfig": {
     "delay": 500,
     "watch": [
-      "services/api/bin/**/*"
+      "services/server/bin/**/*"
     ]
   },
   "_moduleAliases": {
@@ -46,16 +45,17 @@
   },
   "homepage": "https://github.com/framelab/fullstack-template#readme",
   "dependencies": {
-    "@chakra-ui/core": "^0.7.0",
+    "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "arangojs": "^6.14.1",
     "emotion-theming": "^10.0.27",
+    "mongodb": "^3.5.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "@types/node": "^13.13.5",
+    "@types/node": "^14.0.4",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "child_process": "^1.0.2",
@@ -63,6 +63,7 @@
     "css-loader": "^3.5.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "file-loader": "^6.0.0",
     "handlebars": "^4.7.6",
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^4.2.2",
@@ -71,7 +72,7 @@
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
     "node-sass": "^4.14.1",
-    "nodemon": "^2.0.3",
+    "nodemon": "^2.0.4",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "prettier": "^2.0.5",
     "raw-loader": "^4.0.1",

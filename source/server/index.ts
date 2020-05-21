@@ -19,19 +19,19 @@ import * as morgan from "morgan";
 ////////////////////////////////////////////////////////////////////////////////
 // CONFIGURATION
 
-const port = parseInt(process.env["DOCKER_API_PORT"]) || 8000;
+const port = parseInt(process.env["DOCKER_SERVER_PORT"]) || 8000;
 const isDevMode = process.env["NODE_ENV"] !== "production";
 
 const projectDir = path.resolve(__dirname, "../../..");
-const builtDir = path.resolve(projectDir, "services/api/public/built");
-const staticDir = path.resolve(projectDir, "services/api/public/static");
+const builtDir = path.resolve(projectDir, "services/server/public/built");
+const staticDir = path.resolve(projectDir, "services/server/public/static");
 
 ////////////////////////////////////////////////////////////////////////////////
 // GREETING
 
 console.log(`
 --------------------------------------------------------------------------------
-Template - API Server
+Template - Server
 --------------------------------------------------------------------------------
 Port:               ${port}
 Development mode:   ${isDevMode}

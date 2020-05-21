@@ -1,3 +1,8 @@
+/**
+ * Webpack configuration
+ * Typescript / Web Components / SCSS
+ */
+
 "use strict";
 
 require("dotenv").config();
@@ -25,8 +30,7 @@ const projectDir = path.resolve(__dirname, "../..");
 
 const dirs = {
     source: path.resolve(projectDir, "source"),
-    assets: path.resolve(projectDir, "assets"),
-    output: path.resolve(projectDir, "services/api"),
+    output: path.resolve(projectDir, "services/server"),
     modules: path.resolve(projectDir, "node_modules"),
     libs: path.resolve(projectDir, "libs"),
 };
@@ -48,15 +52,10 @@ const alias = {
     "@ff/ui": "ff-ui/source"
 };
 
-// static assets to be copied to build output
-const assets = [
-    // { source: path.resolve(dirs.assets, "image.jpg"), target: path.resolve(dirs.output, "images/image.jpg") }
-];
-
 // project components to be built
 const components = {
     "default": {
-        name: "index",
+        bundle: "index",
         title: "template",
         version: projectVersion,
         subdir: "public/built",
@@ -82,11 +81,6 @@ WEBPACK - PROJECT BUILD CONFIGURATION
   modules folder: ${dirs.modules}
   library folder: ${dirs.libs}`);
 
-    // copy assets
-    assets.forEach(asset => {
-        fs.copySync(asset.source, asset.target, { overwrite: true });
-    });
-
     const componentKey = argv.component !== undefined ? argv.component : "default";
 
     if (componentKey === "all") {
@@ -95,7 +89,8 @@ WEBPACK - PROJECT BUILD CONFIGURATION
 
     const component = components[componentKey];
     if (component === undefined) {
-        throw new Error(`[webpack.config.js] can't build, component not existing: '${componentKey}'`);
+        console.warn(`\n[webpack.config.js] can't build, component not existing: '${componentKey}'`);
+        process.exit(1);
     }
 
     return createBuildConfiguration(environment, dirs, components[componentKey]);}
@@ -115,26 +110,26 @@ function createBuildConfiguration(environment, dirs, component)
 
     const jsOutputFileName = isDevMode ? "js/[name].dev.js" : "js/[name].min.js";
     const cssOutputFileName = isDevMode ? "css/[name].dev.css" : "css/[name].min.css";
-    const htmlOutputFileName = isDevMode ? `${component.name}.dev.html` : `${component.name}.html`;
+    const htmlOutputFileName = isDevMode ? `${component.bundle}.dev.html` : `${component.bundle}.html`;
     const htmlElement = component.element ? `<${component.element}></${component.element}>` : undefined;
 
     console.log(`
 WEBPACK - COMPONENT BUILD CONFIGURATION
-     component: ${component.name}
+        bundle: ${component.bundle}
          title: ${displayTitle}
        version: ${component.version}
  output folder: ${outputDir}
        js file: ${jsOutputFileName}
       css file: ${cssOutputFileName}
      html file: ${htmlOutputFileName}
-  html element: ${htmlElement}`);
+  html element: ${htmlElement || "N/A"}`);
 
     return {
         mode: buildMode,
         devtool: devTool,
 
         entry: {
-            [component.name]: path.resolve(dirs.source, component.entry),
+            [component.bundle]: path.resolve(dirs.source, component.entry),
         },
 
         output: {
@@ -148,7 +143,7 @@ WEBPACK - COMPONENT BUILD CONFIGURATION
             // library aliases
             alias,
             // Resolvable extensions
-            extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
+            extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".wasm"],
         },
 
 
@@ -178,7 +173,7 @@ WEBPACK - COMPONENT BUILD CONFIGURATION
                 version: component.version,
                 isDevelopment: isDevMode,
                 element: htmlElement,
-                chunks: [ component.name ],
+                chunks: [ component.bundle ],
             })
         ],
 
@@ -197,6 +192,15 @@ WEBPACK - COMPONENT BUILD CONFIGURATION
                         loader: "ts-loader",
                         options: { compilerOptions: { noEmit: false } },
                     }],
+                },
+                {
+                    // WebAssembly
+                    test: /\.wasm$/,
+                    type: "javascript/auto",
+                    loader: "file-loader",
+                    options: {
+                        name: '[path][name].[ext]',
+                    },
                 },
                 {
                     // Raw text and shader files

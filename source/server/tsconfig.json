@@ -6,7 +6,7 @@
     "experimentalDecorators": true,
     "sourceMap": true,
 
-    "outDir": "../../services/api/bin",
+    "outDir": "../../services/server/bin",
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {

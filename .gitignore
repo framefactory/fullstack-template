@@ -5,9 +5,9 @@
 node_modules/
 
 doc/
+bin/
 built/
-services/api/bin/
-services/db/data/
+data/
 
 # FILES
 .env

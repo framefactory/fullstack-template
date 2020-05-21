@@ -1,10 +1,11 @@
 version: '3'
 
 services:
-  api:
+  server:
     image: framefactory/node
-    container_name: template-api
+    container_name: template-server
     restart: always
+
     command: [ "npm", "run", "$NPM_SCRIPT" ]
 
     environment:
@@ -12,7 +13,7 @@ services:
     env_file:
       - .env
     ports:
-      - $DOCKER_API_PORT:$DOCKER_API_PORT
+      - $DOCKER_SERVER_PORT:$DOCKER_SERVER_PORT
     volumes:
       - .:/app
     links:
@@ -21,41 +22,58 @@ services:
       - db
 
   db:
-    image: arangodb:latest
-    container_name: template-db
+    image: mongo:latest
+    container_name: template-mongo
     restart: always
 
     env_file:
       - .env
-    ports:
-      - $DOCKER_DB_PORT:8529
     volumes:
-      - ./services/db/data:/var/lib/arangodb3
+      - ./services/db/data:/data/db
+#      - mongo_data:/data/db
+#      - ./services/db/setup:/docker-entrypoint-initdb.d
 
-#  mongo:
-#    image: mongo
-#    container_name: template-mongo
+  db_gui:
+    image: mongo-express:latest
+    container_name: template-mongo-express
+    restart: always
+
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=db
+    env_file:
+      - .env
+    ports: #host:container
+      - $DOCKER_DB_PORT:8081
+    links:
+      - db
+    depends_on:
+      - db
+#    command: [ "sh", "-c", "sleep 5 && tini -s -- node app" ]
+
+#  db:
+#    image: arangodb:latest
+#    container_name: template-db
+#    restart: always
+#
 #    env_file:
 #      - .env
+#    ports:
+#      - $DOCKER_DB_PORT:8529
 #    volumes:
-#      - ./services/db/setup:/docker-entrypoint-initdb.d
-#      - mongo_data:/data/db
-#
-#  mongo_express:
-#    image: mongo-express
-#    container_name: template-mongo-express
+#      - ./services/db/data:/var/lib/arangodb3
+
+#  db:
+#    image: postgres:latest
+#    container_name: template-postgres
 #    env_file:
 #      - services/config.env
 #      - services/secrets.env
-#    ports: #host:container
-#      - "8001:8081"
-#    links:
-#      - mongo
-#    depends_on:
-#      - mongo
-#    command: [ "sh", "-c", "sleep 5 && tini -s -- node app" ]
+#    ports:
+#      - 5432:5432
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
 
-#  pgweb:
+#  dbgui:
 #    image: sosedoff/pgweb
 #    container_name: template-pgweb
 #    env_file:
@@ -66,17 +84,6 @@ services:
 #      - postgres
 #    depends_on:
 #      - postgres
-
-#  postgres:
-#    image: postgres:latest
-#    container_name: template-postgres
-#    env_file:
-#      - services/config.env
-#      - services/secrets.env
-#    ports:
-#      - 5432:5432
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
 
 #volumes:
 #  mongo_data: {}
