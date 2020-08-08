@@ -1,8 +1,7 @@
 {
     "references": [
         { "path": "ff-core/tsconfig.module.json" },
-        { "path": "ff-browser/tsconfig.module.json" },
-        { "path": "ff-ui/tsconfig.module.json" }
+        { "path": "ff-browser/tsconfig.module.json" }
     ],
     "compilerOptions": {
         "composite": true

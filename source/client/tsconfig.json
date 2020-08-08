@@ -12,8 +12,7 @@
     "paths": {
       "client/*": [ "./*" ],
       "@ff/browser/*": [ "../../libs/ff-browser/source/*" ],
-      "@ff/core/*": [ "../../libs/ff-core/source/*" ],
-      "@ff/ui/*": [ "../../libs/ff-ui/source/*" ]
+      "@ff/core/*": [ "../../libs/ff-core/source/*" ]
     }
   }
 }

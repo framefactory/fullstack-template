@@ -49,7 +49,6 @@ const alias = {
     "client": path.resolve(dirs.source, "client"),
     "@ff/browser": "ff-browser/source",
     "@ff/core": "ff-core/source",
-    "@ff/ui": "ff-ui/source"
 };
 
 // project components to be built

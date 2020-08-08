@@ -4,6 +4,3 @@
 [submodule "libs/ff-browser"]
 	path = libs/ff-browser
 	url = git@github.com:framefactory/ff-browser
-[submodule "libs/ff-ui"]
-	path = libs/ff-ui
-	url = git@github.com:framefactory/ff-ui
