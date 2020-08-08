@@ -5,7 +5,7 @@
  * @copyright (c) 2020 Frame Factory GmbH
  */
 
-import * as sourceMapSupport from "source-map-support";
+import sourceMapSupport from "source-map-support";
 sourceMapSupport.install();
 
 import "module-alias/register";
@@ -13,8 +13,9 @@ import "module-alias/register";
 import * as path from "path";
 import * as http from "http";
 
-import * as express from "express";
-import * as morgan from "morgan";
+import debug from "debug";
+import express from "express";
+import morgan from "morgan";
 
 ////////////////////////////////////////////////////////////////////////////////
 // CONFIGURATION
@@ -31,7 +32,7 @@ const staticDir = path.resolve(projectDir, "services/server/public/static");
 
 console.log(`
 --------------------------------------------------------------------------------
-Template - Server
+Fullstack Template - Server
 --------------------------------------------------------------------------------
 Port:               ${port}
 Development mode:   ${isDevMode}
@@ -47,9 +48,8 @@ const app = express();
 app.disable('x-powered-by');
 
 // logging
-if (isDevMode) {
-    app.use(morgan("tiny"));
-}
+const info = debug("info");
+app.use(morgan("combined", { stream: { write: msg => info(msg) } }));
 
 // static file server
 app.use("/", express.static(builtDir));
@@ -61,5 +61,5 @@ app.use("/", (req, res) => res.sendFile(indexFile));
 
 const server = new http.Server(app);
 server.listen(port, () => {
-    console.info(`Server ready and listening on port ${port}\n`);
+    info("Server ready and listening on port %d", port);
 });
