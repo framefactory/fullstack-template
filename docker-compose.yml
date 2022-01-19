@@ -2,7 +2,7 @@ version: '3'
 
 services:
   server:
-    image: framefactory/node
+    image: framefactory/node:latest
     container_name: template-server
     restart: always
 
@@ -22,69 +22,58 @@ services:
       - db
 
   db:
-    image: mongo:latest
-    container_name: template-mongo
+    image: mysql:latest
+    container_name: template-db
     restart: always
 
     env_file:
       - .env
+    ports:
+      - $DOCKER_DB_PORT:3306
     volumes:
-      - ./services/db/data:/data/db
-#      - mongo_data:/data/db
-#      - ./services/db/setup:/docker-entrypoint-initdb.d
+      - ./services/db/data:/var/lib/mysql
 
-  db_gui:
-    image: mongo-express:latest
-    container_name: template-mongo-express
+  # db:
+  #   image: mongo:latest
+  #   container_name: template-db
+  #   restart: always
+
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - $DOCKER_DB_PORT:27017
+  #   volumes:
+  #     - ./services/db/data:/data/db
+
+  admin:
+    image: adminer:latest
+    container_name: template-admin
     restart: always
 
-    environment:
-      - ME_CONFIG_MONGODB_SERVER=db
     env_file:
       - .env
-    ports: #host:container
-      - $DOCKER_DB_PORT:8081
+    ports:
+      - $DOCKER_ADMIN_PORT:8080
     links:
       - db
     depends_on:
       - db
-#    command: [ "sh", "-c", "sleep 5 && tini -s -- node app" ]
 
-#  db:
-#    image: arangodb:latest
-#    container_name: template-db
-#    restart: always
-#
-#    env_file:
-#      - .env
-#    ports:
-#      - $DOCKER_DB_PORT:8529
-#    volumes:
-#      - ./services/db/data:/var/lib/arangodb3
+  # admin:
+  #   image: mongo-express:latest
+  #   container_name: template-admin
+  #   restart: always
 
-#  db:
-#    image: postgres:latest
-#    container_name: template-postgres
-#    env_file:
-#      - services/config.env
-#      - services/secrets.env
-#    ports:
-#      - 5432:5432
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-
-#  dbgui:
-#    image: sosedoff/pgweb
-#    container_name: template-pgweb
-#    env_file:
-#      - services/secrets.env
-#    ports: # host:guest
-#      - $DOCKER_DB_PORT:8081
-#    links:
-#      - postgres
-#    depends_on:
-#      - postgres
+  #   environment:
+  #     - ME_CONFIG_MONGODB_SERVER=db
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - $DOCKER_DB_PORT:8081
+  #   links:
+  #     - db
+  #   depends_on:
+  #     - db
 
 #volumes:
-#  mongo_data: {}
-#  postgres_data: {}
+#  db_data: {}
