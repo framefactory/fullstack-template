@@ -8,6 +8,6 @@ Template for a fullstack application.
 #### Client
 - Typescript
 - Webpack
-- React or Web Components / Material UI
+- Lit Web Components
 
 ## Getting Started

@@ -1,7 +1,7 @@
 /**
  * Webpack configuration
  * Typescript / React / SCSS
- * Version 3.5
+ * Version 3.6
  */
 
 "use strict";
@@ -20,6 +20,7 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+// execute git describe to retrieve project version
 let projectVersion = "v0.0.0";
 try {
     projectVersion = childProcess.execSync("git describe --tags").toString().trim();
@@ -31,13 +32,13 @@ catch {}
 
 const defaultTarget = "web";
 const useDevServer = false;
-const projectDir = path.resolve(__dirname, ".");
+const projectDir = path.resolve(__dirname, "../..");
 
 const dirs = {
-    source: path.resolve(projectDir, "src"), // source code
+    source: path.resolve(projectDir, "src/client/lit-app"), // source code
     //assets: path.resolve(projectDir, "assets"), // source static assets
-    output: path.resolve(projectDir, "public/built"), // built code
-    static: path.resolve(projectDir, "public/static"), // destination static assets
+    output: path.resolve(projectDir, "services/server/public/built"), // built code
+    static: path.resolve(projectDir, "services/server/public/static"), // destination static assets
     modules: path.resolve(projectDir, "node_modules"),
     jsFolder: "", // "js/";
     cssFolder: "", // "css/";
@@ -78,15 +79,19 @@ module.exports = function(env, argv)
         isDevMode: argv.mode !== undefined ? argv.mode !== "production" : process.env["NODE_ENV"] !== "production",
     };
 
+    const componentKey = argv.env.component !== undefined ? argv.env.component : "all";
+
+    console.log(argv);
+
     console.log(`
 WEBPACK - PROJECT BUILD CONFIGURATION
       build mode: ${environment.isDevMode ? "development" : "production"}
+   component key: ${componentKey}
    source folder: ${dirs.source}
    output folder: ${dirs.output}
   modules folder: ${dirs.modules}
     `);
 
-    const componentKey = argv.component !== undefined ? argv.component : "all";
     let configurations = null;
   
     if (componentKey === "all") {

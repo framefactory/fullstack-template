@@ -2,7 +2,7 @@ version: '3'
 
 services:
   server:
-    image: framefactory/node:latest
+    image: framefactory/node:17.9.0
     container_name: template-server
     restart: always
 
@@ -33,18 +33,6 @@ services:
     volumes:
       - ./services/db/data:/var/lib/mysql
 
-  # db:
-  #   image: mongo:latest
-  #   container_name: template-db
-  #   restart: always
-
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - $DOCKER_DB_PORT:27017
-  #   volumes:
-  #     - ./services/db/data:/data/db
-
   admin:
     image: adminer:latest
     container_name: template-admin
@@ -58,6 +46,18 @@ services:
       - db
     depends_on:
       - db
+
+  # db:
+  #   image: mongo:latest
+  #   container_name: template-db
+  #   restart: always
+
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - $DOCKER_DB_PORT:27017
+  #   volumes:
+  #     - ./services/db/data:/data/db
 
   # admin:
   #   image: mongo-express:latest

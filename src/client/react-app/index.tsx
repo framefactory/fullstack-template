@@ -1,8 +1,8 @@
 /**
- * template
+ * Fullstack Template
+ * Copyright 2022 Ralph Wiedemeier, Frame Factory GmbH
  *
- * @author Ralph Wiedemeier <ralph@framefactory.io>
- * @copyright (c) 2020 Frame Factory GmbH
+ * License: MIT
  */
 
 import "./styles.scss";

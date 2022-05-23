@@ -1,8 +1,8 @@
 /**
- * template
+ * Fullstack Template
+ * Copyright 2022 Ralph Wiedemeier, Frame Factory GmbH
  *
- * @author Ralph Wiedemeier <ralph@framefactory.ch>
- * @copyright (c) 2020 Frame Factory GmbH
+ * License: MIT
  */
 
 import * as React from "react";
@@ -22,7 +22,7 @@ export default class Application extends React.Component<IApplicationProps, IApp
     render()
     {
         return (
-            <div>Hello from the Application React component.</div>
+            <div>Hello from the Application React components.</div>
         );
     }
 }
