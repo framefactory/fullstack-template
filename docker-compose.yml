@@ -2,9 +2,8 @@ version: '3'
 
 services:
   server:
-    image: framefactory/node:17.9.0
+    image: framefactory/node:latest
     container_name: template-server
-    restart: always
 
     command: [ "npm", "run", "$NPM_SCRIPT" ]
 
@@ -24,7 +23,6 @@ services:
   db:
     image: mysql:latest
     container_name: template-db
-    restart: always
 
     env_file:
       - .env
@@ -36,7 +34,6 @@ services:
   admin:
     image: adminer:latest
     container_name: template-admin
-    restart: always
 
     env_file:
       - .env

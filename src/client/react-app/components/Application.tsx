@@ -22,7 +22,7 @@ export default class Application extends React.Component<IApplicationProps, IApp
     render()
     {
         return (
-            <div>Hello from the Application React components.</div>
+            <h1>React Application</h1>
         );
     }
 }

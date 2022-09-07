@@ -33,7 +33,7 @@ console.log(`
 Fullstack Template - Server
 --------------------------------------------------------------------------------
 Port:               ${port}
-Development mode:   ${isDevMode}
+Mode:               ${isDevMode ? "development" : "production"}
 Project directory:  ${projectDir}
 Built files:        ${builtDir} 
 Static files:       ${staticDir}
@@ -54,7 +54,7 @@ app.use("/", express.static(builtDir));
 app.use("/", express.static(staticDir));
 
 // client application
-const indexFile = path.resolve(builtDir, isDevMode ? "index.dev.html" : "index.html");
+const indexFile = path.resolve(builtDir, "index.html");
 app.use("/", (req, res) => res.sendFile(indexFile));
 
 const server = new http.Server(app);
