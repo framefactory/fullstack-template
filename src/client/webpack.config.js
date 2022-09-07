@@ -37,6 +37,7 @@ module.exports = utils.createWebpackConfig({
     // import aliases
     aliases: {
         "@ff/core": path.resolve(modulesDir, "@framefactory/core/src"),
+        "@ff/browser": path.resolve(modulesDir, "@framefactory/browser/src"),
     },
 
     // project components to be built

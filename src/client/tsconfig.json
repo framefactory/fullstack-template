@@ -11,8 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "client/*": [ "./*" ],
-      "@ff/browser/*": [ "../../libs/ff-browser/source/*" ],
-      "@ff/core/*": [ "../../libs/ff-core/source/*" ]
+      "@ff/browser/*": [ "../../libs/browser/src/*" ],
+      "@ff/core/*": [ "../../libs/core/src/*" ]
     }
   }
 }
