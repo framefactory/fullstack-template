@@ -1,23 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "experimentalDecorators": true,
-    "sourceMap": true,
+      //"strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "checkJs": true,
+      "allowJs": true,
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
 
-    "outDir": "../../services/server/bin",
+      "sourceMap": true,
+      "target": "ES2022",
+      "module": "ESNext",
+      "moduleResolution": "NodeNext",
 
-    "baseUrl": ".",
-    "paths": {
-      "@ff/core/*": [ "../../libs/core/src/*" ]
-    }
+      "outDir": "../../services/server/bin",
+      "rootDir": "."
   },
-  "references": [
-    { "path": "../../libs/core/tsconfig.json" }
-  ],
   "files": [
-    "index.ts"
+      "index.ts"
   ]
 }

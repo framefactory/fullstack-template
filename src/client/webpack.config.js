@@ -1,6 +1,6 @@
 /**
  * Webpack project configuration
- * Version 3.8
+ * Version 3.0
  * 
  * Copyright 2022 Ralph Wiedemeier, Frame Factory GmbH
  * License: MIT
@@ -8,14 +8,14 @@
 
 "use strict";
 
-const path = require("path");
-const utils = require("./webpack.utils")
+import * as path from "path";
+import * as utils from "./webpack.utils.js"
 
-const projectDir = path.resolve(__dirname, "../..");
-const modulesDir = path.resolve(projectDir, "node_modules")
-const projectVersion = utils.getGitDescription()
+const projectDir = path.resolve(process.env.PWD, "../..");
+const libDir = path.resolve(projectDir, "libs");
+const projectVersion = utils.getGitDescription();
 
-module.exports = utils.createWebpackConfig({
+export default utils.createWebpackConfig({
     projectVersion,
     defaultTarget: "web",
     useDevServer: false,
@@ -29,15 +29,15 @@ module.exports = utils.createWebpackConfig({
         // assets: path.resolve(projectDir, "assets"),
         // destination static assets
         // static: path.resolve(projectDir, "services/server/public/static"),
-        modules: modulesDir,
+        modules: [ "node_modules" ],
         jsFolder: "", // "js/",
         cssFolder: "", // "css/",
     },
 
     // import aliases
     aliases: {
-        "@ff/core": path.resolve(modulesDir, "@framefactory/core/src"),
-        "@ff/browser": path.resolve(modulesDir, "@framefactory/browser/src"),
+        "@ffweb/core": path.resolve(libDir, "core/src"),
+        "@ffweb/browser": path.resolve(libDir, "browser/src"),
     },
 
     // project components to be built

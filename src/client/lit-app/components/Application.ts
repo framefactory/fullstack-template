@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit"
 import { customElement } from "lit/decorators.js"
-import Vector3 from "@ff/core/Vector3";
+
+import { Vector3 } from "@ffweb/core/Vector3.js";
 
 
 @customElement("ff-application")

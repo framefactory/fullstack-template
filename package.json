@@ -1,24 +1,41 @@
 {
   "name": "fullstack-template",
-  "version": "1.3.0",
+  "version": "2.0.0",
+  "license": "MIT",
+  "private": true,
   "description": "Full-stack application template with Typescript, Lit, SCSS",
+  "homepage": "https://github.com/framefactory/fullstack-template#readme",
+  "author": {
+    "name": "Ralph Wiedemeier",
+    "email": "opensource@framefactory.ch",
+    "url": "https://github.com/framefactory"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/framefactory/fullstack-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/framefactory/fullstack-template/issues"
+  },
+  "type": "module",
+  "packageManager": "pnpm@7.12.1",
   "scripts": {
-    "start": "npm run server",
+    "start": "pnpm server",
     "server": "tsc -b src/server; nodemon services/server/bin/index.js",
     "dev": "tsc -b src/server; concurrently \"tsc -b -w src/server\" \"nodemon services/server/bin/index.js\" \"cd src/client && webpack --color -w --mode=development --env component=all\"",
     "dev:component": "tsc -b src/server; concurrently \"tsc -b -w src/server\" \"nodemon services/server/bin/index.js\" \"cd src/client && webpack --color -w --mode=development --env component=$WATCH_COMPONENT\"",
-    "build": "concurrently \"npm run build:client\" \"npm run build:server\"",
+    "build": "concurrently \"pnpm run build:client\" \"pnpm run build:server\"",
     "build:server": "tsc -b src/server",
     "build:client": "cd src/client; webpack --color; cd ../..",
     "build:client:prod": "cd src/client; webpack --color --env component=all --mode=production; cd ../..",
     "build:client:dev": "cd src/client; webpack --color --env component=all --mode=development; cd ../..",
     "clean": "rm -rf services/server/bin; rm -rf services/server/public/built",
-    
-    "up": "bash -c 'WATCH_COMPONENT=${0/#bash/default} NPM_SCRIPT=dev:component docker-compose up -d; docker-compose logs -f'",
-    "down": "docker-compose stop; docker-compose rm -f -v",
-    "restart": "npm run down; npm run up",
-    "install": "docker-compose exec server npm install",
-    "bash": "docker-compose exec server bash",
+    "clean:client": "rm -rf services/server/public/built",
+    "clean:libs": "rm -rf libs/*/build",
+    "up": "bash -c 'WATCH_COMPONENT=${0/#bash/default} NPM_SCRIPT=dev:component docker compose up -d; docker compose logs -f'",
+    "down": "docker compose stop; docker compose rm -f -v",
+    "restart": "pnpm run down; pnpm run up",
+    "bash": "docker compose exec server bash",
     "node": "docker run -ti --rm -p 9000:9000 -v ${PWD}:'/app'  framefactory/node bash"
   },
   "nodemonConfig": {
@@ -27,33 +44,13 @@
       "services/server/bin/**/*"
     ]
   },
-  "_moduleAliases": {
-    "@ff/core": "libs/ff-core/built/export"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/framefactory/fullstack-template.git"
-  },
-  "contributors": [
-    {
-      "name": "Ralph Wiedemeier",
-      "email": "opensource@framefactory.ch",
-      "url": "https://github.com/framefactory"
-    }
-  ],
-  "license": "MIT",
-  "private": true,
-  "bugs": {
-    "url": "https://github.com/framefactory/fullstack-template/issues"
-  },
-  "homepage": "https://github.com/framefactory/fullstack-template#readme",
   "dependencies": {
-    "@framefactory/core": "file:libs/core",
-    "@framefactory/browser": "file:libs/browser",
+    "@ffweb/core": "workspace:*",
+    "@ffweb/browser": "workspace:*",
     "debug": "^4.3.4",
-    "dotenv": "^16.0.2",
-    "express": "^4.18.1",
-    "lit": "^2.3.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "lit": "^2.4.0",
     "morgan": "^1.10.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -63,14 +60,16 @@
     "@types/debug": "4.1.7",
     "@types/express": "4.17.13",
     "@types/morgan": "1.9.3",
-    "@types/node": "^18.7.15",
-    "@types/react": "^18.0.18",
+    "@types/node": "^18.8.3",
+    "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "child_process": "^1.0.2",
     "copy-webpack-plugin": "^11.0.0",
-    "concurrently": "^7.3.0",
+    "concurrently": "^7.4.0",
     "css-loader": "^6.7.1",
-    "css-minimizer-webpack-plugin": "^4.0.0",
+    "css-minimizer-webpack-plugin": "^4.2.1",
+    "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "7.2.13",
     "handlebars": "^4.7.7",
@@ -79,17 +78,18 @@
     "mini-css-extract-plugin": "^2.6.1",
     "mkdirp": "^1.0.4",
     "module-alias": "^2.2.2",
-    "node-sass": "^7.0.1",
-    "nodemon": "^2.0.19",
+    "node-loader": "^2.0.0",
+    "node-sass": "^7.0.3",
+    "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "raw-loader": "^4.0.2",
-    "sass-loader": "^13.0.2",
-    "source-map-loader": "^4.0.0",
+    "sass-loader": "^13.1.0",
+    "source-map-loader": "^4.0.1",
+    "source-map-support": "^0.5.21",
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "^5.3.6",
-    "ts-loader": "^9.3.1",
-    "typescript": "^4.8.2",
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.8.4",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   }

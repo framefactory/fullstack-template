@@ -2,11 +2,12 @@
 .idea/
 .vscode/
 .cache/
+.pnpm-store/
 node_modules/
 
 doc/
-bin/
 built/
+services/server/bin/
 services/db/data/
 
 # FILES
