@@ -1,12 +1,15 @@
 /**
  * Webpack project configuration
- * Version 3.0
+ * Version 4.1
  * 
  * Copyright 2022 Ralph Wiedemeier, Frame Factory GmbH
  * License: MIT
  */
 
 "use strict";
+
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../../.env" });
 
 import * as path from "path";
 import * as utils from "./webpack.utils.js"
@@ -28,7 +31,7 @@ export default utils.createWebpackConfig({
         // source static assets
         // assets: path.resolve(projectDir, "assets"),
         // destination static assets
-        // static: path.resolve(projectDir, "services/server/public/static"),
+        static: path.resolve(projectDir, "services/server/public/static"),
         modules: [ "node_modules" ],
         jsFolder: "", // "js/",
         cssFolder: "", // "css/",
@@ -38,6 +41,7 @@ export default utils.createWebpackConfig({
     aliases: {
         "@ffweb/core": path.resolve(libDir, "core/src"),
         "@ffweb/browser": path.resolve(libDir, "browser/src"),
+        "@ffweb/lit": path.resolve(libDir, "lit/src"),
     },
 
     // project components to be built
@@ -46,35 +50,19 @@ export default utils.createWebpackConfig({
             // bundle output name
             bundle: "index",
             // output subdirectory
-            subdir: "lit-app",
+            subdir: "",
             // see https://webpack.js.org/configuration/target/
             target: "web",
             // page title
-            title: "lit-template",
+            title: "template",
             // component version, uses project version if omitted
             version: projectVersion,
             // entry point relative to source folder
-            entry: "lit-app/index.ts",
+            entry: "index.ts",
             // HTML template relative to source folder
-            template: "lit-app/index.hbs",
+            template: "index.hbs",
             // root HTML element for lit-element applications
             element: "<ff-application></ff-application>",
         },
-        "react": {
-            // bundle output name
-            bundle: "index",
-            // output subdirectory
-            subdir: "react-app",
-            // see https://webpack.js.org/configuration/target/
-            target: "web",
-            // page title
-            title: "react-template",
-            // component version, uses project version if omitted
-            version: projectVersion,
-            // entry point relative to source folder
-            entry: "react-app/index.tsx",
-            // HTML template relative to source folder
-            template: "react-app/index.hbs",
-        }
     }
 });

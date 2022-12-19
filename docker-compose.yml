@@ -32,7 +32,7 @@ services:
       - ./services/db/data:/var/lib/mysql
 
   admin:
-    image: adminer:latest
+    image: phpmyadmin:latest
     container_name: template-admin
 
     env_file:
@@ -43,34 +43,6 @@ services:
       - db
     depends_on:
       - db
-
-  # db:
-  #   image: mongo:latest
-  #   container_name: template-db
-  #   restart: always
-
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - $DOCKER_DB_PORT:27017
-  #   volumes:
-  #     - ./services/db/data:/data/db
-
-  # admin:
-  #   image: mongo-express:latest
-  #   container_name: template-admin
-  #   restart: always
-
-  #   environment:
-  #     - ME_CONFIG_MONGODB_SERVER=db
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - $DOCKER_DB_PORT:8081
-  #   links:
-  #     - db
-  #   depends_on:
-  #     - db
 
 #volumes:
 #  db_data: {}

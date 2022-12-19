@@ -7,9 +7,8 @@
       "allowSyntheticDefaultImports": true,
       "useDefineForClassFields": false,
       "experimentalDecorators": true,
-      "jsx": "react",
 
-      "target": "ES2022",
+      "target": "ES2020",
       "module": "ESNext",
       "moduleResolution": "NodeNext",
 
@@ -19,7 +18,8 @@
       "baseUrl": "../..",
       "paths": {
           "@ffweb/core/*": [ "libs/core/src/*" ],
-          "@ffweb/browser/*": [ "libs/browser/src/*" ]
+          "@ffweb/browser/*": [ "libs/browser/src/*" ],
+          "@ffweb/lit/*": [ "libs/lit/src/*" ]
       }
   }
 }
